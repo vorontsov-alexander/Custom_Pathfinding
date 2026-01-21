@@ -2,11 +2,9 @@ using UnityEngine;
 
 public class SelectManager : MonoBehaviour
 {
-    [Header("Refs")]
     public Camera cam;
-
-    [Header("Masks")]
     public LayerMask unitMask;
+    public LayerMask groundMask;
 
     private UnitController _selected;
 
@@ -14,25 +12,39 @@ public class SelectManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            TrySelectUnit();
+            if (TrySelectUnit())
+                return;
+
+            TryMoveToGround();
         }
     }
 
-    private void TrySelectUnit()
+    private bool TrySelectUnit()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out RaycastHit hit, 200f, unitMask))
-            return;
+            return false;
 
         UnitController unit = hit.collider.GetComponentInParent<UnitController>();
         if (!unit) 
-            return;
+            return false;
 
-        if (_selected)
-        {
+        if (_selected) 
             _selected.SetSelected(false);
-        }
         _selected = unit;
         _selected.SetSelected(true);
+        return true;
+    }
+
+    private void TryMoveToGround()
+    {
+        if (!_selected) 
+            return;
+
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, 500f, groundMask))
+            return;
+
+        _selected.SetDirectTarget(hit.point);
     }
 }

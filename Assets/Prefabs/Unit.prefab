@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 3453303999102815062}
   - component: {fileID: 5466539425606122112}
   - component: {fileID: 1561296470749674780}
+  - component: {fileID: 2382132957118358441}
   m_Layer: 6
   m_Name: Unit
   m_TagString: Untagged
@@ -256,3 +257,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectRing: {fileID: 4671782354194904951}
+  moveSpeed: 4
+  turnSpeed: 12
+  stopRadius: 0.2
+--- !u!54 &2382132957118358441
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620875349976622472}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
