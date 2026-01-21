@@ -557,11 +557,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7534b02ea4547540875c419ff360f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 963194227}
-  unitMask:
+  _Camera: {fileID: 963194227}
+  UnitMask:
     serializedVersion: 2
     m_Bits: 64
-  groundMask:
+  GroundMask:
     serializedVersion: 2
     m_Bits: 128
 --- !u!4 &2070218262

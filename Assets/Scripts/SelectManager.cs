@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class SelectManager : MonoBehaviour
 {
-    public Camera cam;
-    public LayerMask unitMask;
-    public LayerMask groundMask;
+    public Camera _Camera;
+    public LayerMask UnitMask;
+    public LayerMask GroundMask;
 
     private UnitController _selected;
 
@@ -21,8 +21,8 @@ public class SelectManager : MonoBehaviour
 
     private bool TrySelectUnit()
     {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, 200f, unitMask))
+        Ray ray = _Camera.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, 200f, UnitMask))
             return false;
 
         UnitController unit = hit.collider.GetComponentInParent<UnitController>();
@@ -41,8 +41,8 @@ public class SelectManager : MonoBehaviour
         if (!_selected) 
             return;
 
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, 500f, groundMask))
+        Ray ray = _Camera.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, 500f, GroundMask))
             return;
 
         _selected.SetDirectTarget(hit.point);

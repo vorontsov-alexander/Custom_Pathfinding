@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 public class UnitController : MonoBehaviour
@@ -8,9 +9,9 @@ public class UnitController : MonoBehaviour
     [SerializeField] private GameObject _selectRing;
     
     [Header("Move")]
-    [SerializeField] private float moveSpeed = 4f;
-    [SerializeField] private float turnSpeed = 12f;
-    [SerializeField] private float stopRadius = 0.2f;
+    [SerializeField] private float _moveSpeed = 4f;
+    [SerializeField] private float _turnSpeed = 12f;
+    [SerializeField] private float _stopRadius = 0.2f;
 
     private CharacterController _cc;
 
@@ -42,19 +43,19 @@ public class UnitController : MonoBehaviour
         Vector3 to = _target - transform.position;
         to.y = 0f;
 
-        if (to.magnitude <= stopRadius)
+        if (to.magnitude <= _stopRadius)
         {
             _hasTarget = false;
             return;
         }
 
         Vector3 dir = to.normalized;
-        Vector3 vel = dir * moveSpeed;
+        Vector3 vel = dir * _moveSpeed;
 
         if (vel.sqrMagnitude > 0.001f)
         {
             Quaternion rot = Quaternion.LookRotation(dir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * turnSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * _turnSpeed);
         }
 
         _cc.SimpleMove(vel);
