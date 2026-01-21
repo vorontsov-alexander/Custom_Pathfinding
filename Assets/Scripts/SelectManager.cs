@@ -45,6 +45,6 @@ public class SelectManager : MonoBehaviour
         if (!Physics.Raycast(ray, out RaycastHit hit, 500f, GroundMask))
             return;
 
-        _selected.SetDirectTarget(hit.point);
+        _selected.SetTarget(hit.point);
     }
 }

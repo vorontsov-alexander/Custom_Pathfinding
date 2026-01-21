@@ -1,20 +1,26 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 public class UnitController : MonoBehaviour
 {
+    [Header("Refs")]
+    [SerializeField] private Pathfinder _pathfinder;
+    
     [Header("Selection")]
     [SerializeField] private GameObject _selectRing;
     
     [Header("Move")]
     [SerializeField] private float _moveSpeed = 4f;
     [SerializeField] private float _turnSpeed = 12f;
-    [SerializeField] private float _stopRadius = 0.2f;
+    [SerializeField] private float _waypointReachRadius = 0.25f;
 
-    private CharacterController _cc;
+    private CharacterController _characterController;
 
+    private readonly List<Vector3> _path = new List<Vector3>();
+    private int _pathIndex;
     private bool _hasTarget;
     private Vector3 _target;
     
@@ -28,24 +34,51 @@ public class UnitController : MonoBehaviour
     
     private void Awake()
     {
-        _cc = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
         _selectRing?.SetActive(false);
     }
     
     private void Update()
     {
         if (_hasTarget)
-            MoveDirect();
+            MoveAlongPath();
     }
     
-    private void MoveDirect()
+    public void SetTarget(Vector3 target)
     {
-        Vector3 to = _target - transform.position;
-        to.y = 0f;
+        _target = target;
+        _hasTarget = true;
 
-        if (to.magnitude <= _stopRadius)
+        _path.Clear();
+        _pathIndex = 0;
+
+        if (_pathfinder != null && _pathfinder.TryFindPath(transform.position, _target, out var wp))
+        {
+            _path.AddRange(wp);
+        }
+        else
         {
             _hasTarget = false;
+        }
+    }
+
+    private void MoveAlongPath()
+    {
+        if (_pathIndex >= _path.Count)
+        {
+            // дошли до конца
+            if ((transform.position - _target).sqrMagnitude <= 0.3f * 0.3f)
+                _hasTarget = false;
+            return;
+        }
+
+        Vector3 next = _path[_pathIndex];
+        Vector3 to = next - transform.position;
+        to.y = 0f;
+
+        if (to.magnitude <= _waypointReachRadius)
+        {
+            _pathIndex++;
             return;
         }
 
@@ -58,6 +91,6 @@ public class UnitController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * _turnSpeed);
         }
 
-        _cc.SimpleMove(vel);
+        _characterController.SimpleMove(vel);
     }
 }

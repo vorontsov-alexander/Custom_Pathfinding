@@ -256,10 +256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7644f4c2aab40f9aa147b7db1d459c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pathfinder: {fileID: 0}
   _selectRing: {fileID: 4671782354194904951}
-  moveSpeed: 4
-  turnSpeed: 12
-  stopRadius: 0.2
+  _moveSpeed: 4
+  _turnSpeed: 12
+  _waypointReachRadius: 0.25
 --- !u!54 &2382132957118358441
 Rigidbody:
   m_ObjectHideFlags: 0
